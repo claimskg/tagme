@@ -131,7 +131,6 @@
     </target>
 
     <target name="claimskg" depends="compile, input-runargs">
-        <fail unless="class" message="No [class] param specified: use -Dclass="/>
         <java
                 fork="true"
                 classpathref="tagme.cp"
