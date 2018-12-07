@@ -67,6 +67,7 @@
 		<get dest="${basedir}/lib/lucene-core-3.4.0.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/lucene/lucene-core/3.4.0/lucene-core-3.4.0.jar" />
 		<get dest="${basedir}/lib/json-20131018.jar" src="http://search.maven.org/remotecontent?filepath=org/json/json/20131018/json-20131018.jar" />
 		<get dest="${basedir}/lib/log4j-1.2.16.jar" src="http://search.maven.org/remotecontent?filepath=log4j/log4j/1.2.16/log4j-1.2.16.jar" />
+		<get dest="${basedir}/lib/tablesaw-core-0.30.1.jar" src = "http://central.maven.org/maven2/tech/tablesaw/tablesaw-core/0.30.1/tablesaw-core-0.30.1.jar"/>
 		<mkdir dir="${extlib}"/>
 		<get dest="${extlib}/catalina-6.0.37.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/tomcat/catalina/6.0.37/catalina-6.0.37.jar" />
 		<get dest="${extlib}/servlet-api-2.4.jar" src="http://search.maven.org/remotecontent?filepath=javax/servlet/servlet-api/2.4/servlet-api-2.4.jar" />
