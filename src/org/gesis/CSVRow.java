@@ -1,5 +1,7 @@
 package org.gesis;
 
+import java.util.Optional;
+
 public class CSVRow implements Row {
 
     private final Dataset dataset;
@@ -12,7 +14,8 @@ public class CSVRow implements Row {
 
     @Override
     public String get(String name) {
-        return dataset.get(index, name);
+        String value = dataset.get(index, name);
+        return Optional.ofNullable(value).orElse("");
     }
 
     @Override
