@@ -14,7 +14,7 @@ public interface Dataset extends Iterable<Row> {
         settings.getFormat().setQuote('"');
         settings.getFormat().setQuoteEscape('"');
         settings.getFormat().setCharToEscapeQuoteEscaping('"');
-        settings.setMaxCharsPerColumn(4096 * 10);
+        settings.setMaxCharsPerColumn(4096 * 100);
 
         return csv(file, settings);
     }
