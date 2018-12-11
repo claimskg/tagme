@@ -3,11 +3,8 @@ package org.gesis;
 import it.acubelab.tagme.*;
 import it.acubelab.tagme.config.TagmeConfig;
 import it.acubelab.tagme.preprocessing.TopicSearcher;
-import tech.tablesaw.api.Row;
-import tech.tablesaw.api.StringColumn;
-import tech.tablesaw.api.Table;
-import tech.tablesaw.io.csv.CsvWriteOptions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +16,7 @@ public enum AnnotateDataset {
 
 
     @SuppressWarnings("LocalVariableOfConcreteClass")
-    private static String annotateText(final String text, double threshold) {
+    private static String annotateTextJSON(final String text, double threshold) {
         String lang = "en";
 
         AnnotatedText ann_text = new AnnotatedText(text);
@@ -50,34 +47,29 @@ public enum AnnotateDataset {
         }
     }
 
+    @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
     public static void main(String[] args) throws IOException {
 
         TagmeConfig.init();
 
+//        CsvReader reader = ;
+        final File fileToLoad = new File(args[0]);
+        final Dataset dataset = Dataset.csv(new File(args[0]));
 
-        final Table dataset = Table.read().csv(args[0]);
         final double threshold = Double.valueOf(args[1]);
-        final StringColumn entityColumn = (StringColumn) dataset.column("extra_entities_claimReview_claimReviewed");
-        final StringColumn bodyEntityColumn = (StringColumn) dataset.column("extra_entities_body");
         for (final Row row : dataset) {
 
-            final String claimReviewTitle = row.getString("claimReview_claimReviewed");
-            final String reviewBody = row.getString("extra_body");
+            final String claimReviewTitle = row.get("claimReview_claimReviewed");
+            final String reviewBody = row.get("extra_body");
 
-            entityColumn.set(row.getRowNumber(),
-                    AnnotateDataset.annotateText(claimReviewTitle, threshold));
+            row.set("extra_entities_claimReview_claimReviewed",
+                    AnnotateDataset.annotateTextJSON(claimReviewTitle, threshold));
 
-            bodyEntityColumn.set(row.getRowNumber(),
-                    AnnotateDataset.annotateText(reviewBody, threshold));
+            row.set("extra_entities_body", AnnotateDataset.annotateTextJSON(reviewBody, threshold));
 
         }
 
-        dataset.write().csv(CsvWriteOptions.builder(args[0])
-                .header(true)
-                .escapeChar('\\')
-                .quoteChar('"')
-                .separator(',')
-                .lineEnd(System.lineSeparator()).build());
+        dataset.write(fileToLoad);
     }
 
     @SuppressWarnings({"LocalVariableOfConcreteClass", "MethodParameterOfConcreteClass", "FeatureEnvy"})

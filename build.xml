@@ -89,6 +89,7 @@
              src="http://central.maven.org/maven2/tech/tablesaw/tablesaw-core/0.30.1/tablesaw-core-0.30.1.jar"/>
         <get dest="${basedir}/lib/univocity-parsers-2.7.6.jar" src="http://central.maven.org/maven2/com/univocity/univocity-parsers/2.7.6/univocity-parsers-2.7.6.jar"/>
         <get dest="${basedir}/lib/guava-21.0.jar" src="http://central.maven.org/maven2/com/google/guava/guava/21.0/guava-21.0.jar"/>
+        <get dest="${basedir}/lib/tomcat-catalina-8.0.36.jar" src="http://central.maven.org/maven2/org/apache/tomcat/tomcat-catalina/8.0.36/tomcat-catalina-8.0.36.jar"/>
         <mkdir dir="${extlib}"/>
         <get dest="${extlib}/catalina-6.0.37.jar"
              src="http://search.maven.org/remotecontent?filepath=org/apache/tomcat/catalina/6.0.37/catalina-6.0.37.jar"/>
