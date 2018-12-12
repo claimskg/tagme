@@ -92,6 +92,13 @@ public enum AnnotateDataset {
             double score = annotation.getRho();
             String[] categories = searcher.getCategories(wikipediaId);
 
+            if (entity == null) {
+                entity = "";
+            }
+            if (categories == null) {
+                categories = new String[0];
+            }
+
             jsonBuilder.append(String.format("{\n" +
                             "\t\"id\" : %d,\n " +
                             "\t\"begin\": %d,\n" +
