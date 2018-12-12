@@ -1,6 +1,7 @@
 package org.gesis;
 
 import it.acubelab.tagme.*;
+import it.acubelab.tagme.config.TagmeConfig;
 import it.acubelab.tagme.preprocessing.TopicSearcher;
 
 import java.io.File;
@@ -55,9 +56,8 @@ public enum AnnotateDataset {
     @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
     public static void main(String[] args) throws IOException {
 
-//        TagmeConfig.init();
+        TagmeConfig.init();
 
-//        CsvReader reader = ;
         final File fileToLoad = new File(args[0]);
         final Dataset dataset = Dataset.csv(new File(args[0]));
 
