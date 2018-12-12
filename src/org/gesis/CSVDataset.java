@@ -35,14 +35,16 @@ public class CSVDataset implements Dataset {
 
     @Override
     public String get(int index, String name) {
-        int column = headerMap.get(name);
-        return content.get(index)[column];
+        Integer column = headerMap.getOrDefault(name, -1);
+        return (column >= 0) ? content.get(index)[column] : "";
     }
 
     @Override
     public void set(int index, String name, String value) {
-        int column = headerMap.get(name);
-        content.get(index)[column] = value;
+        Integer column = headerMap.getOrDefault(name, -1);
+        if (column >= 0) {
+            content.get(index)[column] = value;
+        }
     }
 
     @Override

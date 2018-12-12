@@ -1,12 +1,12 @@
 package org.gesis;
 
 import it.acubelab.tagme.*;
-import it.acubelab.tagme.config.TagmeConfig;
 import it.acubelab.tagme.preprocessing.TopicSearcher;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,11 +37,16 @@ public enum AnnotateDataset {
             disambiguator.disambiguate(ann_text, relatednessMeasure);
             rho.calc(ann_text, relatednessMeasure);
 
-            List<Annotation> tagMeAnnotations = ann_text.getAnnotations().stream()
+
+            List<Annotation> tagMeAnnotations = ann_text.getAnnotations();
+            if (tagMeAnnotations == null) {
+                tagMeAnnotations = Collections.emptyList();
+            }
+            List<Annotation> filteredAnnotations = tagMeAnnotations.stream()
                     .filter(filter).collect(Collectors.toList());
 
 
-            return AnnotateDataset.annotationsToJson(tagMeAnnotations, ann_text, lang);
+            return AnnotateDataset.annotationsToJson(filteredAnnotations, ann_text, lang);
         } catch (IOException ignored) {
             return "";
         }
@@ -50,7 +55,7 @@ public enum AnnotateDataset {
     @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
     public static void main(String[] args) throws IOException {
 
-        TagmeConfig.init();
+//        TagmeConfig.init();
 
 //        CsvReader reader = ;
         final File fileToLoad = new File(args[0]);
