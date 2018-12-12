@@ -49,6 +49,7 @@ public enum AnnotateDataset {
 
             return AnnotateDataset.annotationsToJson(filteredAnnotations, ann_text, lang);
         } catch (IOException ignored) {
+            ignored.printStackTrace();
             return "";
         }
     }
