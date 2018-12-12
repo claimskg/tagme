@@ -43,6 +43,7 @@ public class CSVDataset implements Dataset {
     public void set(int index, String name, String value) {
         Integer column = headerMap.getOrDefault(name, -1);
         if (column >= 0) {
+            System.err.println("Setting " + name + " with " + value);
             content.get(index)[column] = value;
         }
     }
