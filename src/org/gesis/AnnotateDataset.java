@@ -65,11 +65,11 @@ public enum AnnotateDataset {
             final String reviewBody = row.get("extra_body");
 
             String review_json_string = AnnotateDataset.annotateTextJSON(claimReviewTitle, threshold);
-            System.err.println(review_json_string);
+//            System.err.println(review_json_string);
             row.set("extra_entities_claimReview_claimReviewed", review_json_string);
 
             String body_json_string = AnnotateDataset.annotateTextJSON(reviewBody, threshold);
-            System.err.println(body_json_string);
+//            System.err.println(body_json_string);
             row.set("extra_entities_body", body_json_string);
 
         }
