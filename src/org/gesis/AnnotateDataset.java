@@ -17,7 +17,7 @@ public enum AnnotateDataset {
 
 
     @SuppressWarnings("LocalVariableOfConcreteClass")
-    private static String annotateTextJSON(final String text, double threshold) {
+    private static String annotateTextJSON(final String text, double threshold) throws IOException {
         String lang = "en";
 
         AnnotatedText ann_text = new AnnotatedText(text);
@@ -26,32 +26,28 @@ public enum AnnotateDataset {
 
         final AnnotationFilter filter = (a -> a.isDisambiguated() && a.getRho() >= threshold);
 
-        try {
-            TagmeParser parser = new TagmeParser(lang, true);
+        TagmeParser parser = new TagmeParser(lang, true);
 
-            Disambiguator disambiguator = new Disambiguator(lang);
-            Segmentation segmentation = new Segmentation();
-            RhoMeasure rho = new RhoMeasure();
+        Disambiguator disambiguator = new Disambiguator(lang);
+        Segmentation segmentation = new Segmentation();
+        RhoMeasure rho = new RhoMeasure();
 
-            parser.parse(ann_text);
-            segmentation.segment(ann_text);
-            disambiguator.disambiguate(ann_text, relatednessMeasure);
-            rho.calc(ann_text, relatednessMeasure);
-
-
-            List<Annotation> tagMeAnnotations = ann_text.getAnnotations();
-            if (tagMeAnnotations == null) {
-                tagMeAnnotations = Collections.emptyList();
-            }
-            List<Annotation> filteredAnnotations = tagMeAnnotations.stream()
-                    .filter(filter).collect(Collectors.toList());
+        parser.parse(ann_text);
+        segmentation.segment(ann_text);
+        disambiguator.disambiguate(ann_text, relatednessMeasure);
+        rho.calc(ann_text, relatednessMeasure);
 
 
-            return AnnotateDataset.annotationsToJson(filteredAnnotations, ann_text, lang);
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
-            return "";
+        List<Annotation> tagMeAnnotations = ann_text.getAnnotations();
+        if (tagMeAnnotations == null) {
+            tagMeAnnotations = Collections.emptyList();
         }
+        List<Annotation> filteredAnnotations = tagMeAnnotations.stream()
+                .filter(filter).collect(Collectors.toList());
+
+
+        return AnnotateDataset.annotationsToJson(filteredAnnotations, ann_text, lang);
+
     }
 
     @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
