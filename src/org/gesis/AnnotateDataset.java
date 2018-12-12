@@ -92,6 +92,14 @@ public enum AnnotateDataset {
             double score = annotation.getRho();
             String[] categories = searcher.getCategories(wikipediaId);
 
+            System.err.println(wikipediaId);
+            System.err.println(begin);
+            System.err.println(end);
+            System.err.println(entity);
+            System.err.println(text);
+            System.err.println(score);
+
+
             if (entity == null) {
                 entity = "";
             }
@@ -116,7 +124,7 @@ public enum AnnotateDataset {
                     Arrays.stream(categories).map(c -> "\"" + c + "\"").collect(Collectors.joining(","))));
 
         }
-
+        System.err.println(jsonBuilder.toString());
         return "[\n" + jsonBuilder + "\n]";
     }
 
