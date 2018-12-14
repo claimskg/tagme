@@ -5,9 +5,10 @@ import com.univocity.parsers.csv.CsvParserSettings;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface Dataset extends Iterable<Row> {
-    static Dataset csv(final File file) {
+    static Dataset csv(final File file) throws IOException {
         CsvParserSettings settings = new CsvParserSettings();
         settings.setKeepEscapeSequences(true);
         settings.getFormat().setDelimiter(',');
@@ -19,7 +20,7 @@ public interface Dataset extends Iterable<Row> {
         return csv(file, settings);
     }
 
-    static Dataset csv(File file, CsvParserSettings settings) {
+    static Dataset csv(File file, CsvParserSettings settings) throws IOException {
         CsvParser parser = new CsvParser(settings);
         return new CSVDataset(parser.parseAll(file));
 
