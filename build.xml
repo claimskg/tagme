@@ -92,6 +92,8 @@
         <get dest="${basedir}/lib/tomcat-catalina-8.0.36.jar" src="http://central.maven.org/maven2/org/apache/tomcat/tomcat-catalina/8.0.36/tomcat-catalina-8.0.36.jar"/>
         <get dest="${basedir}/lib/progressbar-0.7.2.jar" src="http://central.maven.org/maven2/me/tongfei/progressbar/0.7.2/progressbar-0.7.2.jar"/>
         <get dest="${basedir}/lib/jline-3.9.0.jar" src="http://central.maven.org/maven2/org/jline/jline/3.9.0/jline-3.9.0.jar"/>
+        <get dest="${basedir}/lib/commons-csv-1.6.jar" src="http://central.maven.org/maven2/org/apache/commons/commons-csv/1.6/commons-csv-1.6.jar"/>
+
         <mkdir dir="${extlib}"/>
         <get dest="${extlib}/catalina-6.0.37.jar"
              src="http://search.maven.org/remotecontent?filepath=org/apache/tomcat/catalina/6.0.37/catalina-6.0.37.jar"/>
