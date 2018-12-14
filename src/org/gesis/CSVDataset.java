@@ -1,11 +1,13 @@
 package org.gesis;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -22,7 +24,7 @@ public class CSVDataset implements Dataset {
     CSVDataset(final List<String[]> content) throws IOException {
         header = content.get(0);
         this.content = content.subList(1, content.size());
-        check_column_consistency(header,content);
+        check_column_consistency(header, content);
         headerMap = new HashMap<>();
         for (int i = 0; i < header.length; i++) {
             headerMap.put(header[i], i);
@@ -65,11 +67,15 @@ public class CSVDataset implements Dataset {
     }
 
     @Override
-    public void write(File file) throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(file);
-        writer.println(Arrays.stream(header).map(h -> "\"" + StringEscapeUtils.escapeCsv(h) + "\"").collect(Collectors.joining(",")));
+    public void write(File file) throws IOException {
+        final BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.toURI()));
+        CSVFormat format = CSVFormat.newFormat(',');
+        CSVPrinter csvPrinter = new CSVPrinter(writer, format);
+
+        csvPrinter.printRecord((Object[]) header);
+
         for (String[] row : content) {
-            writer.println(Arrays.stream(row).map(value -> "\"" + StringEscapeUtils.escapeCsv(value) + "\"").collect(Collectors.joining(",")));
+            csvPrinter.printRecord((Object[]) row);
         }
     }
 

@@ -30,5 +30,5 @@ public interface Dataset extends Iterable<Row> {
 
     void set(int index, final String name, final String value);
 
-    void write(File file) throws FileNotFoundException;
+    void write(File file) throws IOException;
 }
