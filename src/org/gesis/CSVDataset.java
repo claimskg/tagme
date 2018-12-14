@@ -4,7 +4,9 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -17,9 +19,10 @@ public class CSVDataset implements Dataset {
     private final String[] header;
     private final List<Row> wrapperContainer;
 
-    CSVDataset(List<String[]> content) {
+    CSVDataset(final List<String[]> content) throws IOException {
         header = content.get(0);
         this.content = content.subList(1, content.size());
+        check_column_consistency(header,content);
         headerMap = new HashMap<>();
         for (int i = 0; i < header.length; i++) {
             headerMap.put(header[i], i);
@@ -33,6 +36,18 @@ public class CSVDataset implements Dataset {
 
     private static Row create(Dataset dataset, int row) {
         return new CSVRow(dataset, row);
+    }
+
+    private void check_column_consistency(final String[] header, final Iterable<String[]> content) throws IOException {
+        int row_index = 0;
+        for (String[] row : content) {
+            if (row.length != header.length) {
+                throw new IOException(
+                        MessageFormat.format("Invalid column count on line {0}, {1}, instead of {2}",
+                                row_index, row.length, header.length));
+            }
+            row_index++;
+        }
     }
 
     @Override
