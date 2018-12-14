@@ -3,6 +3,7 @@ package org.gesis;
 import it.acubelab.tagme.*;
 import it.acubelab.tagme.config.TagmeConfig;
 import it.acubelab.tagme.preprocessing.TopicSearcher;
+import me.tongfei.progressbar.ProgressBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,18 +59,18 @@ public enum AnnotateDataset {
         final File fileToLoad = new File(args[0]);
         final Dataset dataset = Dataset.csv(new File(args[0]));
 
+
+
         final double threshold = Double.valueOf(args[1]);
-        for (final Row row : dataset) {
+        for (final Row row : ProgressBar.wrap(dataset,"Annotating dataset...")) {
 
             final String claimReviewTitle = row.get("claimReview_claimReviewed");
             final String reviewBody = row.get("extra_body");
 
             String review_json_string = AnnotateDataset.annotateTextJSON(claimReviewTitle, threshold);
-//            System.err.println(review_json_string);
             row.set("extra_entities_claimReview_claimReviewed", review_json_string);
 
             String body_json_string = AnnotateDataset.annotateTextJSON(reviewBody, threshold);
-//            System.err.println(body_json_string);
             row.set("extra_entities_body", body_json_string);
 
         }
