@@ -1,5 +1,7 @@
 package org.gesis;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -50,9 +52,9 @@ public class CSVDataset implements Dataset {
     @Override
     public void write(File file) throws FileNotFoundException {
         PrintWriter writer = new PrintWriter(file);
-        writer.println(Arrays.stream(header).map(h -> "\"" + h + "\"").collect(Collectors.joining(",")));
+        writer.println(Arrays.stream(header).map(h -> "\"" + StringEscapeUtils.escapeCsv(h) + "\"").collect(Collectors.joining(",")));
         for (String[] row : content) {
-            writer.println(Arrays.stream(row).map(h -> "\"" + h + "\"").collect(Collectors.joining(",")));
+            writer.println(Arrays.stream(row).map(value -> "\"" + StringEscapeUtils.escapeCsv(value) + "\"").collect(Collectors.joining(",")));
         }
     }
 
