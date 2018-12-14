@@ -54,15 +54,17 @@ public enum AnnotateDataset {
     @SuppressWarnings({"FeatureEnvy", "LawOfDemeter"})
     public static void main(String[] args) throws IOException {
 
-        TagmeConfig.init();
-
+        if (args.length < 2) {
+            System.err.println("Invalid number of arguments...");
+            System.exit(1);
+        }
         final File fileToLoad = new File(args[0]);
-        final Dataset dataset = Dataset.csv(new File(args[0]));
-
-
-
+        final Dataset dataset = Dataset.csv(fileToLoad);
         final double threshold = Double.valueOf(args[1]);
-        for (final Row row : ProgressBar.wrap(dataset,"Annotating dataset...")) {
+
+
+        TagmeConfig.init();
+        for (final Row row : ProgressBar.wrap(dataset, "Annotating dataset...")) {
 
             final String claimReviewTitle = row.get("claimReview_claimReviewed");
             final String reviewBody = row.get("extra_body");
