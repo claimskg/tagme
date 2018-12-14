@@ -4,6 +4,7 @@ import it.acubelab.tagme.*;
 import it.acubelab.tagme.config.TagmeConfig;
 import it.acubelab.tagme.preprocessing.TopicSearcher;
 import me.tongfei.progressbar.ProgressBar;
+import org.apache.commons.csv.CSVFormat;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,7 +110,7 @@ public enum AnnotateDataset {
                             "\t\"entity\": \"%s\",\n" +
                             "\t\"text\": \"%s\" ,\n" +
                             "\t\"score\": %.2f, \n" +
-                            "\ts\"categories\" : [%s]\n}\n",
+                            "\t\"categories\" : [%s]\n}\n",
                     wikipediaId,
                     begin,
                     end,

@@ -2,6 +2,7 @@ package org.gesis;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -75,8 +76,13 @@ public class CSVDataset implements Dataset {
         csvPrinter.printRecord((Object[]) header);
 
         for (String[] row : content) {
+            for (int i = 0; i < row.length; i++) {
+                row[i] = StringEscapeUtils.escapeCsv(row[i]);
+            }
             csvPrinter.printRecord((Object[]) row);
         }
+        writer.flush();
+        writer.close();
     }
 
     @Override
