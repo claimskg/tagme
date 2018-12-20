@@ -67,7 +67,8 @@ public enum AnnotateDataset {
         for (final Row row : ProgressBar.wrap(dataset, "Annotating dataset...")) {
 
             final String claimReviewTitle = row.get("claimReview_claimReviewed");
-            final String reviewBody = row.get("extra_body");
+            final String reviewBody = row.get("extra_body").replaceAll("\"\"", "'");
+            row.set("extra_body", reviewBody);
 
             String review_json_string = AnnotateDataset.annotateTextJSON(claimReviewTitle, threshold);
             row.set("extra_entities_claimReview_claimReviewed", review_json_string);
@@ -119,7 +120,7 @@ public enum AnnotateDataset {
 
         }
 //        System.err.println(jsonBuilder.toString());
-        return "[\n" + jsonBuilder + "\n]";
+        return "[" + jsonBuilder + "]";
     }
 
     @FunctionalInterface
