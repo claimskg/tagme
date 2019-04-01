@@ -22,10 +22,8 @@ public enum EvaluateOnERD50 {
 
 
     @SuppressWarnings("LocalVariableOfConcreteClass")
-    private static List<Annotation> annotateText(final String text, double threshold) throws IOException {
+    private static List<Annotation> annotateText(final AnnotatedText ann_text, double threshold) throws IOException {
         String lang = "en";
-
-        AnnotatedText ann_text = new AnnotatedText(text);
 
         RelatednessMeasure relatednessMeasure = RelatednessMeasure.create(lang);
 
@@ -77,15 +75,18 @@ public enum EvaluateOnERD50 {
         PrintWriter outputWriter = new PrintWriter(Files.newBufferedWriter(Paths.get("kore50.tsv")));
         TagmeConfig.init();
         for (final Document doc : ProgressBar.wrap(corpus, "Annotating dataset...")) {
-
-            final List<Annotation> annotations = EvaluateOnERD50.annotateText(doc.getText(), threshold);
+            final AnnotatedText annotatedText = new AnnotatedText(doc.getText());
+            final List<Annotation> annotations = EvaluateOnERD50.annotateText(annotatedText, threshold);
             final TopicSearcher searcher = new TopicSearcher("en");
 
             for (final Annotation annotation : annotations) {
                 int wikipediaId = annotation.getTopic();
                 String entity = searcher.getTitle(wikipediaId);
+                int start = annotatedText.getOriginalTextStart(annotation);
+                int end = annotatedText.getOriginalTextEnd(annotation);
+                String text = annotatedText.getText(annotation);
                 answers.add(doc.getId() + ";" + annotation.getStart() + ";" + annotation.getEnd() + ";" + entity);
-                outputWriter.println(doc.getId() + "\t" + annotation.getStart() + "\t" + annotation.getEnd() + "\t\t\t" + doc.getText().substring(annotation.getStart(), annotation.getEnd()) + "\t\t");
+                outputWriter.println(doc.getId() + "\t" + start + "\t" + end + "\t\t\t" + text + "\t\t");
             }
             outputWriter.println();
 
