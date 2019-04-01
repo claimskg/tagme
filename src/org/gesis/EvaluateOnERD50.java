@@ -71,13 +71,6 @@ public enum EvaluateOnERD50 {
                 e.printStackTrace();
             }
         });
-        List<String> gold = new ArrayList<>();
-        final BufferedReader goldreader = Files.newBufferedReader(Paths.get(args[1]));
-        goldreader.lines().forEachOrdered(line -> {
-            String[] bits = line.split("\t");
-            gold.add(bits[0] + ";" + bits[1] + ";" + bits[2] + ";" + bits[5]);
-
-        });
 
 
         List<String> answers = new ArrayList<>();
@@ -92,66 +85,13 @@ public enum EvaluateOnERD50 {
                 int wikipediaId = annotation.getTopic();
                 String entity = searcher.getTitle(wikipediaId);
                 answers.add(doc.getId() + ";" + annotation.getStart() + ";" + annotation.getEnd() + ";" + entity);
-                outputWriter.println(doc.getId() + "\t" + annotation.getStart() + "\t" + annotation.getEnd() + "\t\t\t" + entity + "\t\t");
+                outputWriter.println(doc.getId() + "\t" + annotation.getStart() + "\t" + annotation.getEnd() + "\t\t\t" + doc.getText().substring(annotation.getStart(), annotation.getEnd()) + "\t\t");
             }
             outputWriter.println();
 
         }
         outputWriter.flush();
 
-        printScores(answers, gold);
-    }
-
-    private static void printScores(final List<String> answers, final List<String> gold) {
-
-        int goldIndex = 0;
-        int annotationIndex = 0;
-
-        int tp = 0;
-        int fp = 0;
-        int fn = 0;
-
-        while (goldIndex < gold.size()) {
-            String[] goldBits = gold.get(goldIndex).split(";");
-            String goldDoc = goldBits[0];
-            int goldStart = Integer.valueOf(goldBits[1]);
-            int goldEnd = Integer.valueOf(goldBits[2]);
-            String goldEntity = goldBits[3];
-            while (annotationIndex < answers.size()) {
-                String[] aBits = answers.get(annotationIndex).split(";");
-                String aDoc = aBits[0];
-                int aStart = Integer.valueOf(aBits[1]);
-                int aEnd = Integer.valueOf(aBits[2]);
-                String aEntity = aBits[3];
-                if (aStart >= goldStart) {
-                    if (goldDoc.equals(aDoc)) {
-                        if (goldStart == aStart && goldEnd == aEnd && goldEntity.equals(aEntity)) {
-                            tp++;
-                            annotationIndex++;
-                        } else if (goldStart == aStart) {
-                            fn++;
-                            fp++;
-                            annotationIndex++;
-                        } else if (aStart > goldStart) {
-                            fn++;
-                            goldIndex++;
-                            break;
-                        } else if (aStart < goldStart) {
-                            fp++;
-                            annotationIndex++;
-                        }
-                    } else {
-                        fp++;
-                    }
-                }
-            }
-        }
-        double P = (double) tp / (double) (tp + fp);
-        double R = (double) tp / (double) (tp + fn);
-        double F1 = 2 * P * R / (P + R);
-        System.out.println("P=" + P);
-        System.out.println("R=" + R);
-        System.out.println("F1=" + F1);
     }
 
 
