@@ -74,14 +74,12 @@ public class CSVDataset implements Dataset {
         CSVPrinter csvPrinter = new CSVPrinter(writer, format);
 
         csvPrinter.printRecord((Object[]) header);
-        csvPrinter.println();
 
         for (String[] row : content) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = StringEscapeUtils.escapeCsv(row[i]);
             }
             csvPrinter.printRecord((Object[]) row);
-            csvPrinter.println();
         }
         writer.flush();
         writer.close();

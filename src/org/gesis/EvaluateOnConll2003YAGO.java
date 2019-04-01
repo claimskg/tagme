@@ -66,6 +66,7 @@ public enum EvaluateOnConll2003YAGO {
         for (String line : lines) {
             if (line.contains("-DOCSTART-")) {
                 document = new Document(line);
+                corpus.add(document);
             } else {
                 assert document != null;
                 document.addToken(line.trim());
