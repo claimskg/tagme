@@ -82,11 +82,14 @@ public enum EvaluateOnERD50 {
             for (final Annotation annotation : annotations) {
                 int wikipediaId = annotation.getTopic();
                 String entity = searcher.getTitle(wikipediaId);
-                int start = annotatedText.getOriginalTextStart(annotation);
-                int end = annotatedText.getOriginalTextEnd(annotation);
-                String text = annotatedText.getText(annotation);
-                answers.add(doc.getId() + ";" + annotation.getStart() + ";" + annotation.getEnd() + ";" + entity);
-                outputWriter.println(doc.getId() + "\t" + start + "\t" + end + "\t\t\t" + entity.replaceAll(" ", "_") + "\t\t");
+                if (entity != null) {
+                    entity = entity.replaceAll(" ", "_");
+                    int start = annotatedText.getOriginalTextStart(annotation);
+                    int end = annotatedText.getOriginalTextEnd(annotation);
+                    String text = annotatedText.getText(annotation);
+                    answers.add(doc.getId() + ";" + annotation.getStart() + ";" + annotation.getEnd() + ";" + entity);
+                    outputWriter.println(doc.getId() + "\t" + start + "\t" + end + "\t\t\t" + entity + "\t\t");
+                }
             }
         }
         outputWriter.flush();
