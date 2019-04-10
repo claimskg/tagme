@@ -86,10 +86,8 @@ public enum EvaluateOnERD50 {
                 int end = annotatedText.getOriginalTextEnd(annotation);
                 String text = annotatedText.getText(annotation);
                 answers.add(doc.getId() + ";" + annotation.getStart() + ";" + annotation.getEnd() + ";" + entity);
-                outputWriter.println(doc.getId() + "\t" + start + "\t" + end + "\t\t\t" + text + "\t\t");
+                outputWriter.println(doc.getId() + "\t" + start + "\t" + end + "\t\t\t" + entity + "\t\t");
             }
-            outputWriter.println();
-
         }
         outputWriter.flush();
 
