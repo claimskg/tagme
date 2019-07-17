@@ -44,7 +44,7 @@ public enum ComputeERD50Scores {
             while (annotationIndex < answers.size()) {
                 final Entry aEntry = answers.get(annotationIndex);
                 if (goldEntry.getId().equals(aEntry.getId())) {
-                    if (goldEntry.getStart() == aEntry.getStart() && goldEntry.getEnd() == aEntry.getEnd() && goldEntry.getEntity().toLowerCase().equals(aEntry.getEntity())) {
+                    if (goldEntry.getStart() == aEntry.getStart() && goldEntry.getEnd() == aEntry.getEnd() && goldEntry.getEntity().toLowerCase().equals(aEntry.getEntity().toLowerCase())) {
                         tp++;
                         annotationIndex++;
                     } else if (goldEntry.getStart() == aEntry.getStart()) {

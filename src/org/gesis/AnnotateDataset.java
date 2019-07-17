@@ -76,6 +76,14 @@ public enum AnnotateDataset {
             String body_json_string = AnnotateDataset.annotateTextJSON(reviewBody, threshold);
             row.set("extra_entities_body", body_json_string);
 
+            String keywords = row.get("extra_tags").replaceAll("\\{p}", " ");
+            String keyword_json_string = AnnotateDataset.annotateTextJSON(keywords, threshold);
+            row.set("extra_entities_keywords", keyword_json_string);
+
+            String author = row.get("creativeWork_author_name");
+            String aurhor_json_string = AnnotateDataset.annotateTextJSON(author, threshold);
+            row.set("extra_entities_author", aurhor_json_string);
+
         }
 
         dataset.write(fileToLoad);
