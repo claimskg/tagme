@@ -63,7 +63,7 @@ public enum AnnotateDataset {
         final double threshold = Double.valueOf(args[1]);
 
 
-        TagmeConfig.init(args[3]);
+        TagmeConfig.init(args[2]);
         for (final Row row : ProgressBar.wrap(dataset, "Annotating dataset...")) {
 
             final String claimReviewTitle = row.get("claimReview_claimReviewed");
